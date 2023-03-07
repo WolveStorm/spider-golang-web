@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="RemoteTargetsManager">
+    <targets>
+      <target name="root@127.0.0.1:7777" type="ssh/sftp" uuid="d33c01cd-757a-4f38-84c9-9c3031a56a9a">
+        <config>
+          <option name="projectRootOnTarget" value="/go/src/spider-golang-web" />
+          <option name="serverName" value="root@127.0.0.1:7777 password" />
+        </config>
+        <ContributedStateBase type="GoLanguageRuntime">
+          <config>
+            <option name="goPath" value="/go" />
+            <option name="goRoot" value="/usr/local/go/bin/go" />
+          </config>
+        </ContributedStateBase>
+      </target>
+    </targets>
+  </component>
+</project>

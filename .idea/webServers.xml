@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="WebServers">
+    <option name="servers">
+      <webServer id="6d1ecc9b-95c4-4c29-a261-bc2270fad313" name="go">
+        <fileTransfer accessType="SFTP" host="127.0.0.1" port="7777" sshConfigId="872a5f46-523d-480a-947b-76e4108529c8" sshConfig="root@127.0.0.1:7777 password">
+          <advancedOptions>
+            <advancedOptions dataProtectionLevel="Private" keepAliveTimeout="0" passiveMode="true" shareSSLContext="true" />
+          </advancedOptions>
+        </fileTransfer>
+      </webServer>
+    </option>
+  </component>
+</project>
