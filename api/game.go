@@ -20,6 +20,7 @@ func GameList(c *gin.Context) {
 		return
 	}
 	dial, err := sys_init.GRPCPool.Get(context.Background())
+	defer dial.Close()
 	client := proto.NewGameClient(dial)
 	// 从数据库拿信息
 	list, err := client.GameList(context.Background(), &proto.GameListFilterRequest{
@@ -44,6 +45,7 @@ func GameDetail(c *gin.Context) {
 		return
 	}
 	dial, err := sys_init.GRPCPool.Get(context.Background())
+	defer dial.Close()
 	client := proto.NewGameClient(dial)
 	detail, err := client.GameDetail(context.Background(), &proto.GameDetailRequest{
 		GameName: req.GameName,

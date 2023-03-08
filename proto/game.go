@@ -2,29 +2,18 @@ package proto
 
 import (
 	"context"
-	"go.uber.org/zap"
-	"spider-golang-web/global"
 )
 
 type ServiceGameImpl struct{}
 
 func (s *ServiceGameImpl) GameList(ctx context.Context, req *GameListFilterRequest) (*GameListResponse, error) {
-	// 判断缓存是否存在
-	result, err := global.RedisDB.Exists(context.Background(), global.KVGameList).Result()
-	if err != nil {
-		zap.S().Errorf("error to call redis client ")
-		return nil, err
+	// 尝试从缓存中返回信息
+	resp, ok := FindGameListInRedis(req.Page, req.PageSize, req.Keyword)
+	if ok {
+		return resp, nil
 	}
 	// 缓存失效,重新更新
-	if result == 0 {
-		GameListToRedis()
-	} else {
-		// 尝试从缓存中返回信息
-		resp, ok := FindGameListInRedis(req.Page, req.PageSize, req.Keyword)
-		if ok {
-			return resp, nil
-		}
-	}
+	GameListToRedis()
 	// 如果没有从redis获得，则走数据库
 	var (
 		page     int32 = 1
@@ -38,28 +27,22 @@ func (s *ServiceGameImpl) GameList(ctx context.Context, req *GameListFilterReque
 	}
 	offset := (page - 1) * pageSize
 	gameList, total, err := FindGameList(offset, pageSize, req.Keyword)
+	if err != nil {
+		return nil, err
+	}
 	return &GameListResponse{
 		Total: total,
 		List:  gameList,
 	}, nil
 }
 func (s *ServiceGameImpl) GameDetail(ctx context.Context, req *GameDetailRequest) (*GameDetailInfoResp, error) {
-	// 判断缓存是否存在
-	result, err := global.RedisDB.Exists(context.Background(), global.KVGameDetail).Result()
-	if err != nil {
-		zap.S().Errorf("error to call redis client ")
-		return nil, err
+	// 尝试从缓存中返回信息
+	resp, ok := FindGameDetailInRedis(req.GameName)
+	if ok {
+		return resp, nil
 	}
 	// 缓存失效,重新更新
-	if result == 0 {
-		GameDetailToRedis(req.GameName)
-	} else {
-		// 尝试从缓存中返回信息
-		resp, ok := FindGameDetailInRedis(req.GameName)
-		if ok {
-			return resp, nil
-		}
-	}
+	GameDetailToRedis(req.GameName)
 	detail, err := FindGameDetail(req.GameName)
 	if err != nil {
 		return nil, err
