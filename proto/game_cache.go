@@ -70,13 +70,13 @@ func FindGameListInRedis(reqPage, reqPageSize int32, reqKeyword string) (*GameLi
 		Total: total,
 	}
 	offset := (page - 1) * pageSize
-	if offset >= int32(len(cacheList)) {
+	if offset >= int32(len(filterList)) {
 		resp.List = make([]*GameDetailInfoResp, 0)
 		return resp, true
 	}
 	end := offset + pageSize
-	if end >= int32(len(cacheList)) {
-		end = int32(len(cacheList))
+	if end >= int32(len(filterList)) {
+		end = int32(len(filterList))
 	}
 	resp.List = filterList[offset:end]
 	return resp, true

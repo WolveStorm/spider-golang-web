@@ -11,9 +11,9 @@ import (
 
 func GameList(c *gin.Context) {
 	var req struct {
-		Page     int32  `json:"page"`
-		PageSize int32  `json:"page_size"`
-		Keyword  string `json:"keyword"`
+		Page     int32  `json:"page" form:"page"`
+		PageSize int32  `json:"page_size" form:"page_size"`
+		Keyword  string `json:"key_word" form:"key_word"`
 	}
 	if err := c.ShouldBind(&req); err != nil {
 		util.RspBindingError(c, err)
@@ -38,7 +38,7 @@ func GameList(c *gin.Context) {
 
 func GameDetail(c *gin.Context) {
 	var req struct {
-		GameName string `json:"game_name"`
+		GameName string `json:"game_name" form:"game_name"`
 	}
 	if err := c.ShouldBind(&req); err != nil {
 		util.RspBindingError(c, err)

@@ -135,8 +135,8 @@ type GameListResponse struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Total int32                 `protobuf:"varint,1,opt,name=total,proto3" json:"total,omitempty"`
-	List  []*GameDetailInfoResp `protobuf:"bytes,2,rep,name=list,proto3" json:"list,omitempty"`
+	Total int32                 `protobuf:"varint,1,opt,name=total,proto3" json:"total"`
+	List  []*GameDetailInfoResp `protobuf:"bytes,2,rep,name=list,proto3" json:"list"`
 }
 
 func (x *GameListResponse) Reset() {

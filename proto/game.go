@@ -7,11 +7,13 @@ import (
 type ServiceGameImpl struct{}
 
 func (s *ServiceGameImpl) GameList(ctx context.Context, req *GameListFilterRequest) (*GameListResponse, error) {
+
 	// 尝试从缓存中返回信息
 	resp, ok := FindGameListInRedis(req.Page, req.PageSize, req.Keyword)
 	if ok {
 		return resp, nil
 	}
+
 	// 缓存失效,重新更新
 	GameListToRedis()
 	// 如果没有从redis获得，则走数据库
